@@ -105,6 +105,9 @@ gameState.prototype = {
         this.checkBoundaries(this.shipSprite);
         this.bulletGroup.forEach(this.checkBoundaries, this);
         this.asteroidGroup.forEach(this.checkBoundaries, this);
+
+        game.physics.arcade.overlap(this.bulletGroup, this.asteroidGroup, this.asteroidCollision, null, this);
+        game.physics.arcade.overlap(this.shipSprite, this.asteroidGroup, this.asteroidCollision, null, this);
     },
     
     initGraphics: function () {
@@ -223,6 +226,10 @@ gameState.prototype = {
         }
     },
 
+    asteroidCollision: function (target, asteroid) {
+        target.kill();
+        asteroid.kill();
+    }
 };
 
 var game = new Phaser.Game(gameProperties.screenWidth, gameProperties.screenHeight, Phaser.AUTO, 'gameDiv');
